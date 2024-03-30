@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SampleSignalRWebAPI.SignalRHub;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,10 @@ namespace SampleSignalRWebAPI
         {
 
             services.AddControllers();
+            
+            //
+            services.AddSignalR();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SampleSignalRWebAPI", Version = "v1" });
@@ -50,6 +55,9 @@ namespace SampleSignalRWebAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                //
+                endpoints.MapHub<SampleHub>("/sampleHub");
             });
         }
     }
